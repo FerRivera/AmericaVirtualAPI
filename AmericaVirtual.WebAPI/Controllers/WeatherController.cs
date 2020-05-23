@@ -1,59 +1,52 @@
-﻿using AmericaVirtual.WebAPI.Persistance.Classes;
+﻿using AmericaVirtual.WebAPI.Models.Requests;
+using AmericaVirtual.WebAPI.Models.Responses;
+using AmericaVirtual.WebAPI.Persistance.Classes;
 using AmericaVirtual.WebAPI.Persistance.EntityModel;
 using AmericaVirtual.WebAPI.Persistance.Logger;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.UI.WebControls;
 
 namespace AmericaVirtual.WebAPI.Controllers
 {
     public class WeatherController : ApiController
     {
-        public string GetUsers()
+        List<Users> GetUsers()
         {
-            try
-            {
-                UserRepository userRepository = new UserRepository();
-                var users = JsonConvert.SerializeObject(userRepository.GetUsers());
-                return users;
-            }
-            catch (Exception ex)
-            {
-
-                throw;
-            }            
+            UserRepository userRepository = new UserRepository();
+            var users = userRepository.GetUsers();
+            return users;
         }
 
-        [HttpGet]
-        public bool ValidateUserLogin(string username, string password)
+        public dynamic ValidateUserLogin([FromBody]LoginRequest loginRequest)
         {
             try
             {
-                string usersJson = GetUsers();
+                List<Users> users = GetUsers();
 
-                List<Users> users = JsonConvert.DeserializeObject<List<Users>>(usersJson);
-
-                Users user = users.Find(x => x.Username.ToLower().Trim() == username.ToLower().Trim() && x.Password.ToLower().Trim() == password.ToLower().Trim());
+                Users user = users.Find(x => x.Username.ToLower().Trim() == loginRequest.username.ToLower().Trim() && x.Password.ToLower().Trim() == loginRequest.password.ToLower().Trim());
 
                 if (user != null)
                 {
-                    Logger.Instance.WriteInfoInLog(user.Username, "User validated successfully");
-                    return true;
+                    Logger.Instance.WriteInLog(user.Username,LogType.INFO, "User validated successfully");
+                    return JObject.Parse(JsonConvert.SerializeObject(new LoginResponse { result = true,errors = string.Empty }));
                 }
                 else
                 {
-                    Logger.Instance.WriteWarningInLog(user.Username, "User not found while validating");
-                    return false;
+                    Logger.Instance.WriteInLog(loginRequest.username, LogType.WARNING, "User not found while validating");
+                    return JObject.Parse(JsonConvert.SerializeObject(new LoginResponse { result = false, errors = "User not found" }));
                 }                    
             }
             catch (Exception ex)
             {
-                Logger.Instance.WriteErrorInLog(username, "An error ocurred while validating user", ex.Message);
-                throw;
+                Logger.Instance.WriteInLog(loginRequest.username, LogType.ERROR, "An error ocurred while validating user", ex.Message);
+                return JObject.Parse(JsonConvert.SerializeObject(new LoginResponse { result = false, errors = ex.ToString() }));
             }
             
         }

@@ -24,48 +24,18 @@ namespace AmericaVirtual.WebAPI.Persistance.Logger
             }
         }
 
-        public void WriteErrorInLog(string username,string message, string exception)
+        public void WriteInLog(string username, LogType logType, string message ,string exception = null)
         {
             using (AmericaVirtualEntities context = new AmericaVirtualEntities())
             {
                 Logs log = new Logs();
 
                 log.Username = username;
-                log.LogType = "Error";
-                log.Message = message;
-                log.Exception = exception;
-
-                context.Logs.Add(log);
-
-                context.SaveChanges();
-            }
-        }
-
-        public void WriteInfoInLog(string username, string message)
-        {
-            using (AmericaVirtualEntities context = new AmericaVirtualEntities())
-            {
-                Logs log = new Logs();
-
-                log.Username = username;
-                log.LogType = "Info";
+                log.LogType = logType.ToString();
                 log.Message = message;
 
-                context.Logs.Add(log);
-
-                context.SaveChanges();
-            }
-        }
-
-        public void WriteWarningInLog(string username, string message)
-        {
-            using (AmericaVirtualEntities context = new AmericaVirtualEntities())
-            {
-                Logs log = new Logs();
-
-                log.Username = username;
-                log.LogType = "Warning";
-                log.Message = message;
+                if(!string.IsNullOrEmpty(exception))
+                    log.Exception = exception;
 
                 context.Logs.Add(log);
 
@@ -73,4 +43,11 @@ namespace AmericaVirtual.WebAPI.Persistance.Logger
             }
         }
     }
+}
+
+public enum LogType
+{
+    WARNING,
+    ERROR,
+    INFO
 }

@@ -89,9 +89,7 @@
     </None>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Responses\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="EntityModel\AmericaVirtualEntity.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
