@@ -53,6 +53,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\CityRepository.cs" />
+    <Compile Include="Classes\CountryRepository.cs" />
     <Compile Include="Classes\UserRepository.cs" />
     <Compile Include="EntityModel\AmericaVirtualEntity.Context.cs">
       <AutoGen>True</AutoGen>
@@ -69,10 +71,28 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>AmericaVirtualEntity.edmx</DependentUpon>
     </Compile>
+    <Compile Include="EntityModel\Cities.cs">
+      <DependentUpon>AmericaVirtualEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityModel\Countries.cs">
+      <DependentUpon>AmericaVirtualEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityModel\Days.cs">
+      <DependentUpon>AmericaVirtualEntity.tt</DependentUpon>
+    </Compile>
     <Compile Include="EntityModel\Logs.cs">
       <DependentUpon>AmericaVirtualEntity.tt</DependentUpon>
     </Compile>
+    <Compile Include="EntityModel\sysdiagrams.cs">
+      <DependentUpon>AmericaVirtualEntity.tt</DependentUpon>
+    </Compile>
     <Compile Include="EntityModel\Users.cs">
+      <DependentUpon>AmericaVirtualEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityModel\WeatherConditions.cs">
+      <DependentUpon>AmericaVirtualEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityModel\Weathers.cs">
       <DependentUpon>AmericaVirtualEntity.tt</DependentUpon>
     </Compile>
     <Compile Include="Logger\Logger.cs" />

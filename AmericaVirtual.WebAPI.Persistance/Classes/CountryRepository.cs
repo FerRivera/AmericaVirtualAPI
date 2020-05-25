@@ -1,20 +1,21 @@
 ﻿using AmericaVirtual.WebAPI.Persistance.EntityModel;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace AmericaVirtual.WebAPI.Persistance.Classes
 {
-    public class UserRepository
+    public class CountryRepository
     {
-        public List<Users> GetActiveUsers()
+        public List<Countries> GetActiveCountries()
         {
             using (AmericaVirtualEntities context = new AmericaVirtualEntities())
             {
-                return context.Users.Where(x => x.Active == 1).ToList();
+                return context.Countries.Where(x => x.Active == 1).ToList();
             }
-        }
+        }        
     }
 }

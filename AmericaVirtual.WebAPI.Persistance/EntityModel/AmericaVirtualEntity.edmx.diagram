@@ -7,7 +7,17 @@
       <Diagram DiagramId="604b8abf16604c9daf6d05d32a28b3d9" Name="Diagram1" >
         <EntityTypeShape EntityType="AmericaVirtualModel.Users" Width="1.5" PointX="0.75" PointY="0.75" />
         <EntityTypeShape EntityType="AmericaVirtualModel.Logs" Width="1.5" PointX="3.375" PointY="0.75" />
-      </Diagram>
+        <EntityTypeShape EntityType="AmericaVirtualModel.WeatherConditions" Width="1.5" PointX="4.75" PointY="3.75" />
+        <EntityTypeShape EntityType="AmericaVirtualModel.Cities" Width="1.5" PointX="0.75" PointY="3.75" />
+        <EntityTypeShape EntityType="AmericaVirtualModel.Countries" Width="1.5" PointX="5.75" PointY="0.75" />
+        <EntityTypeShape EntityType="AmericaVirtualModel.sysdiagrams" Width="1.5" PointX="0.75" PointY="6.75" />
+        <AssociationConnector Association="AmericaVirtualModel.FK_Cities_Countries" />
+        <EntityTypeShape EntityType="AmericaVirtualModel.Days" Width="1.5" PointX="2.5" PointY="10.125" />
+        <AssociationConnector Association="AmericaVirtualModel.FK_WeatherConditions_Cities" />
+        <AssociationConnector Association="AmericaVirtualModel.FK_WeatherConditions_Days" />
+        <EntityTypeShape EntityType="AmericaVirtualModel.Weathers" Width="1.5" PointX="7.375" PointY="3.875" />
+        <AssociationConnector Association="AmericaVirtualModel.FK_WeatherConditions_Weathers" />
+        </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>

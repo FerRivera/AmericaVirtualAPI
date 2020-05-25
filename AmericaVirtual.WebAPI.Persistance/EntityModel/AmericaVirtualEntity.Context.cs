@@ -27,5 +27,11 @@ namespace AmericaVirtual.WebAPI.Persistance.EntityModel
     
         public virtual DbSet<Users> Users { get; set; }
         public virtual DbSet<Logs> Logs { get; set; }
+        public virtual DbSet<WeatherConditions> WeatherConditions { get; set; }
+        public virtual DbSet<Cities> Cities { get; set; }
+        public virtual DbSet<Countries> Countries { get; set; }
+        public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
+        public virtual DbSet<Days> Days { get; set; }
+        public virtual DbSet<Weathers> Weathers { get; set; }
     }
 }

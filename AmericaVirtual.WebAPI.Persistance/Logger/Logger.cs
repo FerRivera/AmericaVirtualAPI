@@ -24,13 +24,15 @@ namespace AmericaVirtual.WebAPI.Persistance.Logger
             }
         }
 
-        public void WriteInLog(string username, LogType logType, string message ,string exception = null)
+        public void WriteInLog(LogType logType, string message , string username = null, string exception = null)
         {
             using (AmericaVirtualEntities context = new AmericaVirtualEntities())
             {
                 Logs log = new Logs();
 
-                log.Username = username;
+                if (!string.IsNullOrEmpty(username))
+                    log.Username = username;
+
                 log.LogType = logType.ToString();
                 log.Message = message;
 

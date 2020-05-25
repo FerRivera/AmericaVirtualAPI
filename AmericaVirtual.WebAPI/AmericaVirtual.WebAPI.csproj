@@ -176,7 +176,10 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Requests\CityRequest.cs" />
     <Compile Include="Models\Requests\LoginRequest.cs" />
+    <Compile Include="Models\Responses\CityResponse.cs" />
+    <Compile Include="Models\Responses\CountryResponse.cs" />
     <Compile Include="Models\Responses\LoginResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

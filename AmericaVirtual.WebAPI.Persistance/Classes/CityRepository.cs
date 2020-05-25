@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace AmericaVirtual.WebAPI.Persistance.Classes
 {
-    public class UserRepository
+    public class CityRepository
     {
-        public List<Users> GetActiveUsers()
+        public List<Cities> GetActiveCitiesByCountry(int idCountry)
         {
             using (AmericaVirtualEntities context = new AmericaVirtualEntities())
             {
-                return context.Users.Where(x => x.Active == 1).ToList();
+                return context.Cities.Include("Countries").Where(x => x.Active == 1 && x.Country == idCountry).ToList();
             }
         }
     }
