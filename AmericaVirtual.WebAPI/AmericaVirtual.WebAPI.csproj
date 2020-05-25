@@ -184,6 +184,7 @@
     <Compile Include="Models\Responses\CityResponse.cs" />
     <Compile Include="Models\Responses\CountryResponse.cs" />
     <Compile Include="Models\Responses\LoginResponse.cs" />
+    <Compile Include="Models\Responses\WeatherConditionsResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

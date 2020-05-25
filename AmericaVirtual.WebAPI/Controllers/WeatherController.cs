@@ -19,6 +19,55 @@ namespace AmericaVirtual.WebAPI.Controllers
 {
     public class WeatherController : ApiController
     {
+        public dynamic GetWeatherConditionsByCity(int idCity)
+        {
+            try
+            {
+                WeatherRepository weatherRepository = new WeatherRepository();
+
+                int partFromToday = ((int)DateTime.Now.DayOfWeek == 0) ? 7 : (int)DateTime.Now.DayOfWeek;
+
+                var weatherConditionsList = weatherRepository.GetWeatherConditionsByCity(idCity, partFromToday);
+
+                if (weatherConditionsList != null)
+                {
+                    Logger.Instance.WriteInLog(LogType.INFO, "Weather conditions successfully obtained");
+
+                    WeatherConditionsResponse weatherConditionsResponse = new WeatherConditionsResponse();
+                    weatherConditionsResponse.weatherConditions = new List<WeatherCondition>();
+
+                    foreach (var weatherConditionTemp in weatherConditionsList)
+                    {
+                        WeatherCondition weatherCondition = new WeatherCondition();
+                        weatherCondition.cityId = weatherConditionTemp.IdCity;
+                        weatherCondition.dayId = weatherConditionTemp.IdDay;
+                        weatherCondition.weatherId = weatherConditionTemp.IdWeather;
+                        weatherCondition.dayName = weatherConditionTemp.Days.Day;
+                        weatherConditionsResponse.weatherConditions.Add(weatherCondition);
+                    }
+
+                    return JObject.Parse(JsonConvert.SerializeObject(weatherConditionsResponse));
+                }
+                else
+                {
+                    Logger.Instance.WriteInLog(LogType.WARNING, "Something wrong ocurred while getting the weather conditions");
+                    return JObject.Parse(JsonConvert.SerializeObject(new WeatherConditionsResponse
+                    {
+                        weatherConditions = new List<WeatherCondition>(),
+                        errors = "Could not get the weather conditions"
+                    }));
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Instance.WriteInLog(LogType.ERROR, "An error ocurred while getting the weather conditions", null, ex.Message);
+                return JObject.Parse(JsonConvert.SerializeObject(new WeatherConditionsResponse
+                {
+                    weatherConditions = new List<WeatherCondition>(),
+                    errors = ex.Message.ToString()
+                }));
+            }
+        }
         public dynamic GetActiveCitiesByCountry(int idCountry)
         {
             try
@@ -28,7 +77,7 @@ namespace AmericaVirtual.WebAPI.Controllers
 
                 if (citiesList != null)
                 {
-                    Logger.Instance.WriteInLog(LogType.INFO, "cities successfully obtained");
+                    Logger.Instance.WriteInLog(LogType.INFO, "Cities successfully obtained");
 
                     CityResponse cityResponse = new CityResponse();
                     cityResponse.cities = new List<City>();
@@ -46,7 +95,7 @@ namespace AmericaVirtual.WebAPI.Controllers
                 }
                 else
                 {
-                    Logger.Instance.WriteInLog(LogType.WARNING, "something wrong ocurred while getting the cities");
+                    Logger.Instance.WriteInLog(LogType.WARNING, "Something wrong ocurred while getting the cities");
                     return JObject.Parse(JsonConvert.SerializeObject(new CityResponse
                     {
                         cities = new List<City>(),
@@ -73,7 +122,7 @@ namespace AmericaVirtual.WebAPI.Controllers
 
                 if(countriesList != null)
                 {
-                    Logger.Instance.WriteInLog(LogType.INFO, "countries successfully obtained");
+                    Logger.Instance.WriteInLog(LogType.INFO, "Countries successfully obtained");
 
                     CountryResponse countryResponse = new CountryResponse();
                     countryResponse.countries = new List<Country>();
@@ -91,7 +140,7 @@ namespace AmericaVirtual.WebAPI.Controllers
                 }
                 else
                 {
-                    Logger.Instance.WriteInLog(LogType.WARNING, "something wrong ocurred while getting the countries");
+                    Logger.Instance.WriteInLog(LogType.WARNING, "Something wrong ocurred while getting the countries");
                     return JObject.Parse(JsonConvert.SerializeObject(new CountryResponse
                     {
                         countries = new List<Country>(),

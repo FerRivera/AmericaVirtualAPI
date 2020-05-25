@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace AmericaVirtual.WebAPI.Persistance.Classes
 {
-    public class CityRepository
+    public class WeatherRepository
     {
-        public List<Cities> GetActiveCitiesByCountry(int idCountry)
+        public List<WeatherConditions> GetWeatherConditionsByCity(int idCity, int partFromToday)
         {
             using (AmericaVirtualEntities context = new AmericaVirtualEntities())
             {
-                return context.Cities.Where(x => x.Active == 1 && x.Country == idCountry).ToList();
+                return context.WeatherConditions.Include("Days").Where(x => x.IdCity == idCity && x.IdDay >= partFromToday).Take(5).ToList();
             }
         }
     }
