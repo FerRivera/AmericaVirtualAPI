@@ -46,6 +46,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AmericaVirtual.Domain">
+      <HintPath>..\..\America Virtual Project\AmericaVirtual.Domain\bin\Debug\AmericaVirtual.Domain.dll</HintPath>
+    </Reference>
     <Reference Include="AmericaVirtual.WebAPI.Persistance">
       <HintPath>..\AmericaVirtual.WebAPI.Persistance\bin\Debug\AmericaVirtual.WebAPI.Persistance.dll</HintPath>
     </Reference>
