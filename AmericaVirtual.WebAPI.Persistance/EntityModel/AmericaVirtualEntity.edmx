@@ -66,6 +66,11 @@
           <Property Name="IdCity" Type="int" Nullable="false" />
           <Property Name="IdDay" Type="int" Nullable="false" />
           <Property Name="IdWeather" Type="int" Nullable="false" />
+          <Property Name="TemperatureCelsius" Type="int" Nullable="false" />
+          <Property Name="Precipitation" Type="int" Nullable="false" />
+          <Property Name="Humidity" Type="int" Nullable="false" />
+          <Property Name="Wind" Type="int" Nullable="false" />
+          <Property Name="TemperatureFahrenheit" Type="decimal" Precision="18" Scale="0" Nullable="false" />
         </EntityType>
         <EntityType Name="Weathers">
           <Key>
@@ -208,6 +213,11 @@
           <NavigationProperty Name="Cities" Relationship="AmericaVirtualModel.FK_WeatherConditions_Cities" FromRole="WeatherConditions" ToRole="Cities" />
           <NavigationProperty Name="Days" Relationship="AmericaVirtualModel.FK_WeatherConditions_Days" FromRole="WeatherConditions" ToRole="Days" />
           <NavigationProperty Name="Weathers" Relationship="AmericaVirtualModel.FK_WeatherConditions_Weathers" FromRole="WeatherConditions" ToRole="Weathers" />
+          <Property Name="TemperatureCelsius" Type="Int32" Nullable="false" />
+          <Property Name="Precipitation" Type="Int32" Nullable="false" />
+          <Property Name="Humidity" Type="Int32" Nullable="false" />
+          <Property Name="Wind" Type="Int32" Nullable="false" />
+          <Property Name="TemperatureFahrenheit" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
         </EntityType>
         <EntityType Name="Cities">
           <Key>
@@ -333,6 +343,11 @@
           <EntitySetMapping Name="WeatherConditions">
             <EntityTypeMapping TypeName="AmericaVirtualModel.WeatherConditions">
               <MappingFragment StoreEntitySet="WeatherConditions">
+                <ScalarProperty Name="TemperatureFahrenheit" ColumnName="TemperatureFahrenheit" />
+                <ScalarProperty Name="Wind" ColumnName="Wind" />
+                <ScalarProperty Name="Humidity" ColumnName="Humidity" />
+                <ScalarProperty Name="Precipitation" ColumnName="Precipitation" />
+                <ScalarProperty Name="TemperatureCelsius" ColumnName="TemperatureCelsius" />
                 <ScalarProperty Name="IdWeather" ColumnName="IdWeather" />
                 <ScalarProperty Name="IdDay" ColumnName="IdDay" />
                 <ScalarProperty Name="IdCity" ColumnName="IdCity" />

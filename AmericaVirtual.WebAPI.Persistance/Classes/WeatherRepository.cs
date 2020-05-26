@@ -13,7 +13,7 @@ namespace AmericaVirtual.WebAPI.Persistance.Classes
         {
             using (AmericaVirtualEntities context = new AmericaVirtualEntities())
             {
-                return context.WeatherConditions.Include("Days").Where(x => x.IdCity == idCity && x.IdDay >= partFromToday).Take(5).ToList();
+                return context.WeatherConditions.Include("Days").Include("Weathers").Where(x => x.IdCity == idCity && x.IdDay >= partFromToday).Take(5).ToList();
             }
         }
     }

@@ -43,6 +43,12 @@ namespace AmericaVirtual.WebAPI.Controllers
                         weatherCondition.dayId = weatherConditionTemp.IdDay;
                         weatherCondition.weatherId = weatherConditionTemp.IdWeather;
                         weatherCondition.dayName = weatherConditionTemp.Days.Day;
+                        weatherCondition.dayWeather = weatherConditionTemp.Weathers.Weather;
+                        weatherCondition.humidity = weatherConditionTemp.Humidity;
+                        weatherCondition.precipitation = weatherConditionTemp.Precipitation;
+                        weatherCondition.temperatureCelsius = weatherConditionTemp.TemperatureCelsius;
+                        weatherCondition.temperatureFahrenheit = weatherConditionTemp.TemperatureFahrenheit;
+                        weatherCondition.wind = weatherConditionTemp.Wind;
                         weatherConditionsResponse.weatherConditions.Add(weatherCondition);
                     }
 

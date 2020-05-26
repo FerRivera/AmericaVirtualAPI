@@ -18,6 +18,11 @@ namespace AmericaVirtual.WebAPI.Persistance.EntityModel
         public int IdCity { get; set; }
         public int IdDay { get; set; }
         public int IdWeather { get; set; }
+        public int TemperatureCelsius { get; set; }
+        public int Precipitation { get; set; }
+        public int Humidity { get; set; }
+        public int Wind { get; set; }
+        public decimal TemperatureFahrenheit { get; set; }
     
         public virtual Cities Cities { get; set; }
         public virtual Days Days { get; set; }
