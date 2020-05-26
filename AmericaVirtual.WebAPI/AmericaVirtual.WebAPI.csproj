@@ -46,6 +46,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AmericaVirtual.Domain">
+      <HintPath>..\..\America Virtual Project\AmericaVirtual.Domain\bin\Debug\AmericaVirtual.Domain.dll</HintPath>
+    </Reference>
     <Reference Include="AmericaVirtual.WebAPI.Persistance">
       <HintPath>..\AmericaVirtual.WebAPI.Persistance\bin\Debug\AmericaVirtual.WebAPI.Persistance.dll</HintPath>
     </Reference>
@@ -181,6 +184,7 @@
     <Compile Include="Models\Responses\CityResponse.cs" />
     <Compile Include="Models\Responses\CountryResponse.cs" />
     <Compile Include="Models\Responses\LoginResponse.cs" />
+    <Compile Include="Models\Responses\WeatherConditionsResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

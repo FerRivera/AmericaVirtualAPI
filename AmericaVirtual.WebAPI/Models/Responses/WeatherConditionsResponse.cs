@@ -6,9 +6,9 @@ using System.Web;
 
 namespace AmericaVirtual.WebAPI.Models.Responses
 {
-    public class CountryResponse
+    public class WeatherConditionsResponse
     {
-        public List<Country> countries { get; set; }
+        public List<WeatherCondition> weatherConditions { get; set; }
         public string errors { get; set; }
     }
 }
