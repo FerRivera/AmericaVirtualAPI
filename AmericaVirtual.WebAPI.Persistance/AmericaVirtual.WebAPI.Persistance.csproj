@@ -56,6 +56,7 @@
     <Compile Include="Classes\CityRepository.cs" />
     <Compile Include="Classes\CountryRepository.cs" />
     <Compile Include="Classes\UserRepository.cs" />
+    <Compile Include="Classes\WeatherRepository.cs" />
     <Compile Include="EntityModel\AmericaVirtualEntity.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

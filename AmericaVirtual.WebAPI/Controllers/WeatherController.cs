@@ -1,4 +1,5 @@
-﻿using AmericaVirtual.WebAPI.Models.Requests;
+﻿using AmericaVirtual.Domain.Entities;
+using AmericaVirtual.WebAPI.Models.Requests;
 using AmericaVirtual.WebAPI.Models.Responses;
 using AmericaVirtual.WebAPI.Persistance.Classes;
 using AmericaVirtual.WebAPI.Persistance.EntityModel;
@@ -18,35 +19,92 @@ namespace AmericaVirtual.WebAPI.Controllers
 {
     public class WeatherController : ApiController
     {
-        public dynamic GetActiveCitiesByCountry(int idCountry) //[FromBody]CityRequest cityRequest
+        public dynamic GetWeatherConditionsByCity(int idCity)
+        {
+            try
+            {
+                WeatherRepository weatherRepository = new WeatherRepository();
+
+                int partFromToday = ((int)DateTime.Now.DayOfWeek == 0) ? 7 : (int)DateTime.Now.DayOfWeek;
+
+                var weatherConditionsList = weatherRepository.GetWeatherConditionsByCity(idCity, partFromToday);
+
+                if (weatherConditionsList != null)
+                {
+                    Logger.Instance.WriteInLog(LogType.INFO, "Weather conditions successfully obtained");
+
+                    WeatherConditionsResponse weatherConditionsResponse = new WeatherConditionsResponse();
+                    weatherConditionsResponse.weatherConditions = new List<WeatherCondition>();
+
+                    foreach (var weatherConditionTemp in weatherConditionsList)
+                    {
+                        WeatherCondition weatherCondition = new WeatherCondition();
+                        weatherCondition.cityId = weatherConditionTemp.IdCity;
+                        weatherCondition.dayId = weatherConditionTemp.IdDay;
+                        weatherCondition.weatherId = weatherConditionTemp.IdWeather;
+                        weatherCondition.dayName = weatherConditionTemp.Days.Day;
+                        weatherCondition.dayWeather = weatherConditionTemp.Weathers.Weather;
+                        weatherCondition.humidity = weatherConditionTemp.Humidity;
+                        weatherCondition.precipitation = weatherConditionTemp.Precipitation;
+                        weatherCondition.temperatureCelsius = weatherConditionTemp.TemperatureCelsius;
+                        weatherCondition.temperatureFahrenheit = weatherConditionTemp.TemperatureFahrenheit;
+                        weatherCondition.wind = weatherConditionTemp.Wind;
+                        weatherConditionsResponse.weatherConditions.Add(weatherCondition);
+                    }
+
+                    return JObject.Parse(JsonConvert.SerializeObject(weatherConditionsResponse));
+                }
+                else
+                {
+                    Logger.Instance.WriteInLog(LogType.WARNING, "Something wrong ocurred while getting the weather conditions");
+                    return JObject.Parse(JsonConvert.SerializeObject(new WeatherConditionsResponse
+                    {
+                        weatherConditions = new List<WeatherCondition>(),
+                        errors = "Could not get the weather conditions"
+                    }));
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Instance.WriteInLog(LogType.ERROR, "An error ocurred while getting the weather conditions", null, ex.Message);
+                return JObject.Parse(JsonConvert.SerializeObject(new WeatherConditionsResponse
+                {
+                    weatherConditions = new List<WeatherCondition>(),
+                    errors = ex.Message.ToString()
+                }));
+            }
+        }
+        public dynamic GetActiveCitiesByCountry(int idCountry)
         {
             try
             {
                 CityRepository cityRepository = new CityRepository();
-                var cities = cityRepository.GetActiveCitiesByCountry(idCountry); //cityRequest.idCountry
+                var citiesList = cityRepository.GetActiveCitiesByCountry(idCountry);
 
-                if (cities != null)
+                if (citiesList != null)
                 {
-                    Logger.Instance.WriteInLog(LogType.INFO, "cities successfully obtained");
+                    Logger.Instance.WriteInLog(LogType.INFO, "Cities successfully obtained");
 
-                    var data = cities.Select(city => new CityResponse
+                    CityResponse cityResponse = new CityResponse();
+                    cityResponse.cities = new List<City>();
+
+                    foreach (var cityTemp in citiesList)
                     {
-                        id = city.Id,
-                        city = city.City,
-                        active = city.Active,
-                        errors = ""
-                    }).ToList();
+                        City city = new City();
+                        city.city = cityTemp.City;
+                        city.id = cityTemp.Id;
+                        city.active = cityTemp.Active;
+                        cityResponse.cities.Add(city);
+                    }
 
-                    return JArray.Parse(JsonConvert.SerializeObject(data, Formatting.Indented));
+                    return JObject.Parse(JsonConvert.SerializeObject(cityResponse));
                 }
                 else
                 {
-                    Logger.Instance.WriteInLog(LogType.WARNING, "something wrong ocurred while getting the cities");
+                    Logger.Instance.WriteInLog(LogType.WARNING, "Something wrong ocurred while getting the cities");
                     return JObject.Parse(JsonConvert.SerializeObject(new CityResponse
                     {
-                        id = -1,
-                        city = "",
-                        active = -1,
+                        cities = new List<City>(),
                         errors = "Could not get the cities"
                     }));
                 }
@@ -56,9 +114,7 @@ namespace AmericaVirtual.WebAPI.Controllers
                 Logger.Instance.WriteInLog(LogType.ERROR, "An error ocurred while getting the cities", null, ex.Message);
                 return JObject.Parse(JsonConvert.SerializeObject(new CityResponse
                 {
-                    id = -1,
-                    city = "",
-                    active = -1,
+                    cities = new List<City>(),
                     errors = ex.Message.ToString()
                 }));
             }
@@ -68,29 +124,32 @@ namespace AmericaVirtual.WebAPI.Controllers
             try
             {
                 CountryRepository countryRepository = new CountryRepository();
-                var countries = countryRepository.GetActiveCountries();
+                var countriesList = countryRepository.GetActiveCountries();
 
-                if(countries != null)
+                if(countriesList != null)
                 {
-                    Logger.Instance.WriteInLog(LogType.INFO, "countries successfully obtained");
+                    Logger.Instance.WriteInLog(LogType.INFO, "Countries successfully obtained");
 
-                    var data = countries.Select(country => new CountryResponse
+                    CountryResponse countryResponse = new CountryResponse();
+                    countryResponse.countries = new List<Country>();
+
+                    foreach (var countryTemp in countriesList)
                     {
-                        id = country.Id,
-                        name = country.Name,
-                        active = country.Active
-                    }).ToList();
+                        Country country = new Country();
+                        country.name = countryTemp.Name;
+                        country.id = countryTemp.Id;
+                        country.active = countryTemp.Active;
+                        countryResponse.countries.Add(country);
+                    }
 
-                    return JArray.Parse(JsonConvert.SerializeObject(data, Formatting.Indented));
+                    return JObject.Parse(JsonConvert.SerializeObject(countryResponse));
                 }
                 else
                 {
-                    Logger.Instance.WriteInLog(LogType.WARNING, "something wrong ocurred while getting the countries");
+                    Logger.Instance.WriteInLog(LogType.WARNING, "Something wrong ocurred while getting the countries");
                     return JObject.Parse(JsonConvert.SerializeObject(new CountryResponse
                     {
-                        id = -1,
-                        name = "",
-                        active = -1,
+                        countries = new List<Country>(),
                         errors = "Could not get the countries"
                     }));
                 }
@@ -100,9 +159,7 @@ namespace AmericaVirtual.WebAPI.Controllers
                 Logger.Instance.WriteInLog(LogType.ERROR, "An error ocurred while getting the countries", null, ex.Message);
                 return JObject.Parse(JsonConvert.SerializeObject(new CountryResponse
                 {
-                    id = -1,
-                    name = "",
-                    active = -1,
+                    countries = new List<Country>(),
                     errors = ex.Message.ToString()
                 }));
             }
